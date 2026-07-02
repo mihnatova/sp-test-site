@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SP Test Site - Home</title>
+    <!-- SECURE PRIVACY SCRIPT GOES HERE -->
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; background: #f9f9f9; color: #333; }
+        h1 { color: #2c3e50; }
+        nav { margin: 20px 0; padding: 15px; background: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        nav a { margin-right: 20px; text-decoration: none; color: #3498db; font-weight: bold; }
+        nav a:hover { text-decoration: underline; }
+        .section { background: #fff; padding: 20px; margin: 15px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        button { background: #e74c3c; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin: 5px; }
+        button:hover { background: #c0392b; }
+        .btn-blue { background: #3498db; }
+        .btn-blue:hover { background: #2980b9; }
+        footer { margin-top: 30px; text-align: center; color: #999; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <h1>Secure Privacy - QA Test Site</h1>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="page2.html">Page 2 (Media)</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+    </nav>
+    <div class="section">
+        <h2>Welcome</h2>
+        <p>This is a test website for QA testing of the Secure Privacy cookie consent widget.</p>
+        <p>Use the navigation above to visit different pages and test how the consent banner behaves across page transitions.</p>
+    </div>
+    <div class="section">
+        <h2>Test Actions</h2>
+        <p>Use these buttons to test cookie and storage behavior:</p>
+        <button onclick="localStorage.clear(); sessionStorage.clear(); alert('LocalStorage and SessionStorage cleared!');">Clear LocalStorage</button>
+        <button class="btn-blue" onclick="document.cookie.split(';').forEach(c => document.cookie = c.trim().split('=')[0] + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/'); alert('Cookies cleared!');">Clear Cookies</button>
+        <button class="btn-blue" onclick="location.reload();">Reload Page</button>
+    </div>
+    <div class="section">
+        <h2>Cookie Info</h2>
+        <p><strong>Current cookies:</strong></p>
+        <pre id="cookie-display"></pre>
+        <p><strong>LocalStorage keys:</strong></p>
+        <pre id="ls-display"></pre>
+        <script>
+            function updateDisplays() {
+                document.getElementById('cookie-display').textContent = document.cookie || '(no cookies set)';
+                const lsKeys = Object.keys(localStorage);
+                document.getElementById('ls-display').textContent = lsKeys.length ? lsKeys.join(', ') : '(empty)';
+            }
+            updateDisplays();
+        </script>
+    </div>
+    <footer>
+        <p>QA Test Site for Secure Privacy | Built on GitHub Pages</p>
+    </footer>
+</body>
+</html>
