@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SP Test Site - Embeds & Third-Party</title>
+    <!-- SECURE PRIVACY SCRIPT -->
+    <script src="https://frontend-test.secureprivacy.ai/script/6a4629c94d0e27db78eafc95.js"></script>
+    <!-- GOOGLE ANALYTICS (test) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TEST123456"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-TEST123456');
+    </script>
+    <!-- FACEBOOK PIXEL (test) -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '000000000000000');
+        fbq('track', 'PageView');
+    </script>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; background: #f9f9f9; color: #333; }
+        h1 { color: #2c3e50; }
+        nav { margin: 20px 0; padding: 15px; background: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        nav a { margin-right: 15px; text-decoration: none; color: #3498db; font-weight: bold; }
+        nav a:hover { text-decoration: underline; }
+        .section { background: #fff; padding: 20px; margin: 15px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .tag { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 0.8em; font-weight: bold; margin-bottom: 10px; }
+        .tag-analytics { background: #e8f5e9; color: #2e7d32; }
+        .tag-marketing { background: #fff3e0; color: #e65100; }
+        .tag-functional { background: #e3f2fd; color: #1565c0; }
+        .tag-social { background: #fce4ec; color: #c62828; }
+        .script-status { padding: 10px; background: #f5f5f5; border-radius: 5px; font-family: monospace; font-size: 0.85em; margin-top: 10px; }
+        footer { margin-top: 30px; text-align: center; color: #999; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <h1>Embeds & Third-Party Services</h1>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="page2.html">Media</a>
+        <a href="embeds.html">Embeds</a>
+        <a href="form.html">Form</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+    </nav>
+    <div class="section">
+        <span class="tag tag-analytics">Analytics</span>
+        <h2>Google Analytics (gtag.js)</h2>
+        <p>GA measurement ID <code>G-TEST123456</code> is loaded in the &lt;head&gt;. This script should be <strong>blocked until consent</strong> is given for the Analytics category.</p>
+        <div class="script-status">
+            <strong>Status:</strong>
+            <span id="ga-status">Checking...</span>
+        </div>
+        <script>
+            document.getElementById('ga-status').textContent = typeof gtag === 'function' ? '✅ gtag IS loaded (script NOT blocked)' : '🚫 gtag NOT loaded (script blocked or failed)';
+        </script>
+    </div>
+    <div class="section">
+        <span class="tag tag-marketing">Marketing</span>
+        <h2>Facebook Pixel</h2>
+        <p>FB Pixel with test ID <code>000000000000000</code> is loaded in the &lt;head&gt;. Should be <strong>blocked until consent</strong> for Marketing category.</p>
+        <div class="script-status">
+            <strong>Status:</strong>
+            <span id="fb-status">Checking...</span>
+        </div>
+        <script>
+            document.getElementById('fb-status').textContent = typeof fbq === 'function' ? '✅ fbq IS loaded (script NOT blocked)' : '🚫 fbq NOT loaded (script blocked or failed)';
+        </script>
+    </div>
+    <div class="section">
+        <span class="tag tag-functional">Functional</span>
+        <h2>Google Maps Embed</h2>
+        <p>An embedded Google Map. Tests whether functional/third-party iframes are blocked before consent.</p>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2573.0477683142474!2d24.029717!3d49.842957!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x473add7c09109a57%3A0x4223c043ce0dcf!2sLviv%2C%20Lviv%20Oblast%2C%20Ukraine!5e0!3m2!1sen!2sus!4v1" width="100%" height="300" style="border:0; border-radius: 8px;" allowfullscreen loading="lazy"></iframe>
+    </div>
+    <div class="section">
+        <span class="tag tag-social">Social Media</span>
+        <h2>Twitter/X Embed</h2>
+        <p>Tests whether social media widgets and their tracking scripts are blocked.</p>
+        <blockquote class="twitter-tweet"><p>Testing third-party social embeds for cookie consent compliance.</p></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </div>
+    <div class="section">
+        <span class="tag tag-marketing">Marketing</span>
+        <h2>Tracking Pixel (image)</h2>
+        <p>A 1x1 tracking pixel image. Should be blocked before marketing consent.</p>
+        <img src="https://www.facebook.com/tr?id=000000000000000&ev=PageView&noscript=1" width="1" height="1" style="display:none" alt="tracking pixel">
+        <p><em>Hidden 1x1 pixel is embedded above. Check Network tab in DevTools to see if request was made.</em></p>
+    </div>
+    <div class="section">
+        <h2>How to Test</h2>
+        <ol>
+            <li>Open DevTools → Network tab before loading the page</li>
+            <li>Load this page fresh (clear cookies first via Home page)</li>
+            <li><strong>Before consent:</strong> Check which scripts/requests are blocked</li>
+            <li>Click <strong>Accept All</strong> on the consent banner</li>
+            <li>Reload and check — all scripts should now load</li>
+            <li>Go back to Home, clear cookies, reload, click <strong>Decline</strong></li>
+            <li>Only essential scripts should load, third-party should stay blocked</li>
+        </ol>
+    </div>
+    <footer>
+        <p>QA Test Site for Secure Privacy | Built on GitHub Pages</p>
+    </footer>
+</body>
+</html>
