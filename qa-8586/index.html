@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SP Test - IAB TCF 2.4</title>
+  <script src="https://frontend-test.secureprivacy.ai/script/6ab421188d71e349e0d2bbaa.js"></script>
+</head>
+<body>
+  <h1>IAB TCF 2.4 QA Test</h1>
+  <button onclick="localStorage.clear();location.reload()">Clear and Reload</button>
+  <button onclick="__tcfapi('getTCData',2,function(d){console.log(d)})">Get TC Data</button>
+  <button onclick="__tcfapi('ping',2,function(d){console.log(d)})">Ping CMP</button>
+  <p>Test page for IAB TCF v2.4 banner.</p>
+  <a href="https://example.com">Link</a>
+</body>
+</html>
