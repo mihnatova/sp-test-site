@@ -27,3 +27,10 @@ Serves a local page that injects the SP tag after a configurable delay and walks
 to find where detection stops working. It implements Puppeteer's `networkidle2` (at most two
 in-flight requests for 500 ms) rather than Playwright's stricter `networkidle`, to match what
 browserless actually waits for.
+
+### `gtm-headroom.mjs`
+
+Loads the live `gtm/` fixture under faithful `networkidle2` semantics and walks download
+throughput downwards, to find where GTM's container stops arriving in time for the snapshot.
+Shows that detection of a GTM-delivered tag is a race against container download, not a
+property of the installation.
