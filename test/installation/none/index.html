@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: -apple-system, Arial, sans-serif; max-width: 760px; margin: 40px auto; padding: 0 20px; background: #f9f9f9; color: #333; }
+        h1 { color: #2c3e50; font-size: 1.4rem; }
+        .card { background: #fff; padding: 18px 20px; margin: 14px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,.08); }
+        .label { display: inline-block; background: #2c3e50; color: #fff; padding: 4px 10px; border-radius: 4px; font-size: .78rem; letter-spacing: .04em; }
+        code { background: #eef1f3; padding: 2px 5px; border-radius: 3px; font-size: .85em; }
+        #sp-probe { font-family: ui-monospace, Menlo, monospace; font-size: .82rem; white-space: pre-wrap; }
+        a { color: #3498db; }
+    </style>
+    <title>SP detection - 04 no script</title>
+</head>
+<body>
+    <span class="label">SCENARIO 04 - NO SCRIPT</span>
+    <h1>No SP script at all (negative control)</h1>
+    <div class="card">
+        This page contains no Secure Privacy tag of any kind, and &mdash; deliberately &mdash; no
+        occurrence of any SP domain ID anywhere in its markup.
+        <br><br><strong>Expected detection:</strong> <code>NotInstalled</code> from both the plain-HTTP
+        pass and the browserless pass.
+        <br><br><strong>Why the markup is kept clean:</strong> the detector also returns
+        <code>CorrectlyInstalled</code> when the raw page source merely <em>contains the domain ID
+        string</em>. Printing the ID on the page would produce a false positive and invalidate this
+        negative control.
+    </div>
+    <div class="card">
+        <strong>SP script probe</strong>
+        <div id="sp-probe">initialising&hellip;</div>
+    </div>
+    <p><a href="../">&larr; all installation scenarios</a></p>
+    <script>
+    (function () {
+        var t0 = performance.now();
+        var out = document.getElementById("sp-probe");
+        var found = null;
+        function scan() {
+            var tags = document.querySelectorAll("script[src]");
+            for (var i = 0; i < tags.length; i++) {
+                if (tags[i].src.indexOf("secureprivacy.ai/script/") !== -1) return tags[i].src;
+            }
+            return null;
+        }
+        function render() {
+            out.textContent =
+                "in raw HTML at parse time : " + (window.__SP_IN_RAW_HTML__ === true ? "YES" : "NO") + "\n" +
+                "present in live DOM       : " + (found ? "YES" : "NO") + "\n" +
+                "appeared after            : " + (found ? Math.round(found.t) + " ms" : "n/a");
+        }
+        var iv = setInterval(function () {
+            var src = scan();
+            if (src) { found = { src: src, t: performance.now() - t0 }; clearInterval(iv); render(); }
+        }, 100);
+        setTimeout(function () { clearInterval(iv); render(); }, 15000);
+        render();
+    })();
+    </script>
+</body>
+</html>

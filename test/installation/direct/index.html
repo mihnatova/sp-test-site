@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- SECURE PRIVACY SCRIPT - direct embed, first script in <head> -->
+    <script src="https://frontend-test.secureprivacy.ai/script/__SP_DOMAIN_ID__.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: -apple-system, Arial, sans-serif; max-width: 760px; margin: 40px auto; padding: 0 20px; background: #f9f9f9; color: #333; }
+        h1 { color: #2c3e50; font-size: 1.4rem; }
+        .card { background: #fff; padding: 18px 20px; margin: 14px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,.08); }
+        .label { display: inline-block; background: #2c3e50; color: #fff; padding: 4px 10px; border-radius: 4px; font-size: .78rem; letter-spacing: .04em; }
+        code { background: #eef1f3; padding: 2px 5px; border-radius: 3px; font-size: .85em; }
+        #sp-probe { font-family: ui-monospace, Menlo, monospace; font-size: .82rem; white-space: pre-wrap; }
+        a { color: #3498db; }
+    </style>
+    <title>SP detection - 01 direct embed</title>
+    <script>window.__SP_IN_RAW_HTML__ = true;</script>
+</head>
+<body>
+    <span class="label">SCENARIO 01 - DIRECT EMBED</span>
+    <h1>SP script embedded directly in &lt;head&gt;</h1>
+    <div class="card">
+        The SP tag is the first <code>&lt;script&gt;</code> in <code>&lt;head&gt;</code> and is present in the
+        raw HTML returned by a plain HTTP GET.
+        <br><br><strong>Expected detection:</strong> <code>CorrectlyInstalled</code> on the first
+        (non-browserless) pass.
+    </div>
+    <div class="card">
+        <strong>SP script probe</strong>
+        <div id="sp-probe">initialising…</div>
+    </div>
+    <p><a href="../">&larr; all installation scenarios</a></p>
+    <script>
+    (function () {
+        var t0 = performance.now();
+        var out = document.getElementById("sp-probe");
+        var found = null;
+        function scan() {
+            var tags = document.querySelectorAll("script[src]");
+            for (var i = 0; i < tags.length; i++) {
+                if (tags[i].src.indexOf("secureprivacy.ai/script/") !== -1) return tags[i].src;
+            }
+            return null;
+        }
+        function render() {
+            var inRaw = window.__SP_IN_RAW_HTML__ === true;
+            out.textContent =
+                "in raw HTML at parse time : " + (inRaw ? "YES" : "NO") + "\n" +
+                "present in live DOM       : " + (found ? "YES" : "NO") + "\n" +
+                "appeared after            : " + (found ? Math.round(found.t) + " ms" : "n/a");
+        }
+        var iv = setInterval(function () {
+            var src = scan();
+            if (src) { found = { src: src, t: performance.now() - t0 }; clearInterval(iv); render(); }
+        }, 100);
+        setTimeout(function () { clearInterval(iv); render(); }, 15000);
+        render();
+    })();
+    </script>
+</body>
+</html>

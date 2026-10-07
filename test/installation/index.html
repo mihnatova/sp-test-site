@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SP script installation detection - test scenarios</title>
+    <style>
+        body { font-family: -apple-system, Arial, sans-serif; max-width: 820px; margin: 40px auto; padding: 0 20px; background: #f9f9f9; color: #333; }
+        h1 { color: #2c3e50; font-size: 1.5rem; }
+        table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,.08); }
+        th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid #eceff1; font-size: .92rem; vertical-align: top; }
+        th { background: #2c3e50; color: #fff; font-size: .8rem; letter-spacing: .04em; }
+        tr:last-child td { border-bottom: 0; }
+        code { background: #eef1f3; padding: 2px 5px; border-radius: 3px; font-size: .85em; }
+        a { color: #3498db; }
+        .note { background: #fff8e1; border-left: 4px solid #f4b400; padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 18px 0; font-size: .9rem; }
+    </style>
+</head>
+<body>
+    <h1>Script installation detection &mdash; test scenarios</h1>
+    <p>Fixtures for QA of the SP script installation check (ADO #8667). Each scenario is a separate
+       page so it can be registered as its own domain in test-v2.</p>
+    <table>
+        <tr><th>#</th><th>Scenario</th><th>How the tag is delivered</th><th>Expected</th></tr>
+        <tr><td>01</td><td><a href="direct/">direct</a></td><td>Static tag, first script in <code>&lt;head&gt;</code></td><td>CorrectlyInstalled</td></tr>
+        <tr><td>02</td><td><a href="gtm/">gtm</a></td><td>Google Tag Manager container only</td><td>under test</td></tr>
+        <tr><td>03</td><td><a href="dynamic/">dynamic</a></td><td><code>createElement</code> on <code>DOMContentLoaded</code></td><td>under test</td></tr>
+        <tr><td>04</td><td><a href="none/">none</a></td><td>Not present at all (negative control)</td><td>NotInstalled</td></tr>
+        <tr><td>05</td><td><a href="delayed/">delayed</a></td><td><code>setTimeout</code> 4000&nbsp;ms</td><td>under test</td></tr>
+    </table>
+    <div class="note">
+        <strong>Before testing:</strong> each page ships with a <code>__SP_DOMAIN_ID__</code> placeholder.
+        Register the page URL as a domain in test-v2, then run
+        <code>./set-id.sh &lt;scenario&gt; &lt;domainId&gt;</code> from the repo root and push, so the page
+        carries the ID that the detector will actually look for. Scenario 02 additionally needs
+        <code>__GTM_CONTAINER_ID__</code> replaced with a real published container. Scenario 04 takes no ID.
+    </div>
+    <p><a href="../">&larr; back to the QA test site</a></p>
+</body>
+</html>
