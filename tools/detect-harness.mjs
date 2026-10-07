@@ -7,12 +7,12 @@ const SP = 'secureprivacy.ai/script/';
 
 // the "domain ID" each fixture is stamped with (placeholders, pre-registration)
 const SCENARIOS = [
-  { name: 'direct',  id: '__SP_DOMAIN_ID__' },
-  { name: 'gtm',     id: '__SP_DOMAIN_ID__' },           // never stamped; needs a real container
-  { name: 'dynamic', id: '__SP_ID_P1____SP_ID_P2__' },   // assembled at runtime
-  { name: 'none',    id: '__SP_DOMAIN_ID__' },
-  { name: 'delayed', id: '__SP_ID_P1____SP_ID_P2__' },
-  { name: 'bare-id',  id: '__SP_DOMAIN_ID__' },
+  { name: 'direct',   id: '6ac65fd28927a02bcaba001f' },
+  { name: 'gtm',      id: '6ac665e149716c13b49b9bc7' },    // container not published; scenario 02 is out of this run
+  { name: 'dynamic',  id: '6ac665e58927a02bcaba0088' }, // assembled at runtime
+  { name: 'none',     id: '6ac665ea49716c13b49b9bca' },   // no ID on the page by design
+  { name: 'delayed',  id: '6ac665ee8927a02bcaba008e' }, // assembled at runtime
+  { name: 'bare-id',  id: '6ac665f249716c13b49b9bd0' },
 ];
 
 function scriptSrcs(src) {
