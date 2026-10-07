@@ -19,12 +19,15 @@
     <h1>No SP script at all (negative control)</h1>
     <div class="card">
         This page contains no Secure Privacy tag, no SP script URL, and no domain ID anywhere in its
-        markup.
+        markup &mdash; neither as literal text nor as an HTML entity.
         <br><br><strong>Expected:</strong> <code>NotInstalled</code> from both passes.
-        <br><br>Keeping the markup clean matters: the detector returns <code>InvalidDomain</code> if the
-        source merely contains the string <code>secureprivacy&#46;ai/script/</code>, and
-        <code>CorrectlyInstalled</code> if it merely contains the domain ID. Either one would destroy
-        this negative control &mdash; see scenario 06.
+        <br><br>Keeping the markup clean matters more than it looks. The detector falls through to two
+        bare substring tests: one on the SP script URL prefix (which yields
+        <code>InvalidDomain</code>) and one on the domain ID (which yields
+        <code>CorrectlyInstalled</code>). Either string appearing anywhere &mdash; prose, a code sample,
+        an install guide &mdash; destroys this negative control. Writing it as an HTML entity is not
+        enough either: the entity survives the plain-HTTP pass but is decoded back to plain text in the
+        rendered DOM that the browserless pass inspects. See scenario 06 for the ID case.
     </div>
     <div class="card">
         <strong>SP script probe</strong>
