@@ -12,7 +12,7 @@
 # short-circuits and the browserless pass is never exercised.
 set -euo pipefail
 
-usage() { echo "usage: set-id.sh <direct|gtm|dynamic|delayed|idonly> <domainId> [gtmContainerId]" >&2; exit 1; }
+usage() { echo "usage: set-id.sh <direct|gtm|dynamic|delayed|bare-id> <domainId> [gtmContainerId]" >&2; exit 1; }
 
 scenario=${1:-}; domain_id=${2:-}; gtm_id=${3:-}
 [[ -n $scenario && -n $domain_id ]] || usage

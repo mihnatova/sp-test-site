@@ -12,7 +12,7 @@ const SCENARIOS = [
   { name: 'dynamic', id: '__SP_ID_P1____SP_ID_P2__' },   // assembled at runtime
   { name: 'none',    id: '__SP_DOMAIN_ID__' },
   { name: 'delayed', id: '__SP_ID_P1____SP_ID_P2__' },
-  { name: 'idonly',  id: '__SP_DOMAIN_ID__' },
+  { name: 'bare-id',  id: '__SP_DOMAIN_ID__' },
 ];
 
 function scriptSrcs(src) {
