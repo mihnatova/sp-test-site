@@ -25,13 +25,12 @@
     <span class="label">SCENARIO 02 - GTM INJECTION</span>
     <h1>SP script delivered only through Google Tag Manager</h1>
     <div class="card">
-        The SP tag is delivered <strong>only</strong> through the Google Tag Manager container
-        (SP community template, Custom HTML tag, or equivalent). It does not appear anywhere in this
-        document&rsquo;s raw HTML.
+        The SP tag is delivered <strong>only</strong> through the GTM container (SP community template
+        or a Custom HTML tag). Neither the tag URL nor the domain ID appears in this document.
         <br><br><strong>Setup required:</strong> replace <code>__GTM_CONTAINER_ID__</code> with a real
-        container ID and publish a tag that loads the SP script for the domain registered for this page.
-        <br><br><strong>Expected detection:</strong> the plain-HTTP pass must return
-        <code>NotInstalled</code>; the browserless pass is the only thing that can rescue it.
+        published container that loads the SP script for the domain registered against this page.
+        <br><br><strong>Expected:</strong> plain-HTTP pass <code>NotInstalled</code>; only the
+        browserless pass can detect it.
     </div>
     <div class="card">
         <strong>SP script probe</strong>
@@ -40,13 +39,14 @@
     <p><a href="../">&larr; all installation scenarios</a></p>
     <script>
     (function () {
+        var MARK = "secure" + "privacy.ai/script/";
         var t0 = performance.now();
         var out = document.getElementById("sp-probe");
         var found = null;
         function scan() {
             var tags = document.querySelectorAll("script[src]");
             for (var i = 0; i < tags.length; i++) {
-                if (tags[i].src.indexOf("secureprivacy.ai/script/") !== -1) return tags[i].src;
+                if (tags[i].src.indexOf(MARK) !== -1) return tags[i].src;
             }
             return null;
         }

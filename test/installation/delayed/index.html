@@ -2,12 +2,15 @@
 <html lang="en">
 <head>
     <script>
-    window.__SP_DELAY_MS__ = 4000;
-    setTimeout(function () {
-        var s = document.createElement('script');
-        s.src = 'https://frontend-test.secureprivacy.ai/script/__SP_DOMAIN_ID__.js';
-        document.head.appendChild(s);
-    }, window.__SP_DELAY_MS__);
+    (function () {
+        var host = "https://frontend-test.secure" + "privacy.ai/script/";
+        var id = "__SP_ID_P1__" + "__SP_ID_P2__";
+        setTimeout(function () {
+            var s = document.createElement('script');
+            s.src = host + id + ".js";
+            document.head.appendChild(s);
+        }, 4000);
+    })();
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,12 +29,11 @@
     <span class="label">SCENARIO 05 - DELAYED LOAD</span>
     <h1>SP script injected after a 4s setTimeout</h1>
     <div class="card">
-        The SP tag is injected after a <code>setTimeout</code> of 4000&nbsp;ms, past the point where
-        the network has gone idle.
-        <br><br><strong>Expected detection:</strong> plain-HTTP pass returns <code>NotInstalled</code>.
-        Browserless waits for <code>networkidle2</code>, which is reached well before 4&nbsp;s, so the
-        snapshot is most likely taken before the tag exists &rarr; expected <code>NotInstalled</code>.
-        Adjust <code>__SP_DELAY_MS__</code> to bisect the real cut-off.
+        Same runtime-assembled injection as scenario 03, but deferred by
+        <code>setTimeout(&hellip;, 4000)</code> &mdash; well past the point where the network goes idle.
+        <br><br><strong>Expected:</strong> plain-HTTP <code>NotInstalled</code>. Browserless snapshots on
+        <code>networkidle2</code>, which is reached in well under a second, so the tag should be missed.
+        Vary the timeout to bisect the real cut-off.
     </div>
     <div class="card">
         <strong>SP script probe</strong>
@@ -40,13 +42,14 @@
     <p><a href="../">&larr; all installation scenarios</a></p>
     <script>
     (function () {
+        var MARK = "secure" + "privacy.ai/script/";
         var t0 = performance.now();
         var out = document.getElementById("sp-probe");
         var found = null;
         function scan() {
             var tags = document.querySelectorAll("script[src]");
             for (var i = 0; i < tags.length; i++) {
-                if (tags[i].src.indexOf("secureprivacy.ai/script/") !== -1) return tags[i].src;
+                if (tags[i].src.indexOf(MARK) !== -1) return tags[i].src;
             }
             return null;
         }

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SP script installation detection - test scenarios</title>
     <style>
-        body { font-family: -apple-system, Arial, sans-serif; max-width: 820px; margin: 40px auto; padding: 0 20px; background: #f9f9f9; color: #333; }
+        body { font-family: -apple-system, Arial, sans-serif; max-width: 860px; margin: 40px auto; padding: 0 20px; background: #f9f9f9; color: #333; }
         h1 { color: #2c3e50; font-size: 1.5rem; }
         table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,.08); }
         th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid #eceff1; font-size: .92rem; vertical-align: top; }
@@ -18,8 +18,8 @@
 </head>
 <body>
     <h1>Script installation detection &mdash; test scenarios</h1>
-    <p>Fixtures for QA of the SP script installation check (ADO #8667). Each scenario is a separate
-       page so it can be registered as its own domain in test-v2.</p>
+    <p>Fixtures for QA of the SP script installation check (ADO #8667). Each scenario is a separate page
+       so it can be registered as its own domain in test-v2.</p>
     <table>
         <tr><th>#</th><th>Scenario</th><th>How the tag is delivered</th><th>Expected</th></tr>
         <tr><td>01</td><td><a href="direct/">direct</a></td><td>Static tag, first script in <code>&lt;head&gt;</code></td><td>CorrectlyInstalled</td></tr>
@@ -27,13 +27,19 @@
         <tr><td>03</td><td><a href="dynamic/">dynamic</a></td><td><code>createElement</code> on <code>DOMContentLoaded</code></td><td>under test</td></tr>
         <tr><td>04</td><td><a href="none/">none</a></td><td>Not present at all (negative control)</td><td>NotInstalled</td></tr>
         <tr><td>05</td><td><a href="delayed/">delayed</a></td><td><code>setTimeout</code> 4000&nbsp;ms</td><td>under test</td></tr>
+        <tr><td>06</td><td><a href="idonly/">idonly</a></td><td>Domain ID in body text, no script at all</td><td>false-positive control</td></tr>
     </table>
     <div class="note">
-        <strong>Before testing:</strong> each page ships with a <code>__SP_DOMAIN_ID__</code> placeholder.
-        Register the page URL as a domain in test-v2, then run
+        <strong>Before testing:</strong> register each page URL as its own domain in test-v2, then run
         <code>./set-id.sh &lt;scenario&gt; &lt;domainId&gt;</code> from the repo root and push, so the page
-        carries the ID that the detector will actually look for. Scenario 02 additionally needs
+        carries the ID the detector will look for. Scenario 02 also needs
         <code>__GTM_CONTAINER_ID__</code> replaced with a real published container. Scenario 04 takes no ID.
+        <br><br>
+        <strong>Why 03 and 05 assemble the script URL at runtime:</strong> the plain-HTTP pass returns
+        early if the raw HTML contains either the domain ID or the SP script URL, and the browserless
+        pass only runs when that first pass came back <code>NotInstalled</code>. Splitting both strings
+        is what makes those two fixtures actually exercise browserless instead of short-circuiting
+        before it.
     </div>
     <p><a href="../">&larr; back to the QA test site</a></p>
 </body>

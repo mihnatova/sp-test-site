@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- SECURE PRIVACY SCRIPT - direct embed, first script in <head> -->
-    <script src="https://frontend-test.secureprivacy.ai/script/__SP_DOMAIN_ID__.js"></script>
-    <script>window.__SP_IN_RAW_HTML__ = true;</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
@@ -15,16 +12,19 @@
         #sp-probe { font-family: ui-monospace, Menlo, monospace; font-size: .82rem; white-space: pre-wrap; }
         a { color: #3498db; }
     </style>
-    <title>SP detection - 01 direct embed</title>
+    <title>SP detection - 06 bare ID, no script</title>
 </head>
 <body>
-    <span class="label">SCENARIO 01 - DIRECT EMBED</span>
-    <h1>SP script embedded directly in &lt;head&gt;</h1>
+    <span class="label">SCENARIO 06 - BARE ID, NO SCRIPT</span>
+    <h1>Domain ID present in the page, no SP script</h1>
     <div class="card">
-        The SP tag is the first <code>&lt;script&gt;</code> in <code>&lt;head&gt;</code> and is present
-        in the raw HTML returned by a plain HTTP GET.
-        <br><br><strong>Expected:</strong> <code>CorrectlyInstalled</code> on the plain-HTTP pass; the
-        browserless pass is never reached.
+        This page carries no Secure Privacy tag whatsoever. It only mentions a domain ID in ordinary
+        body text: <code>__SP_DOMAIN_ID__</code>
+        <br><br><strong>Expected:</strong> <code>NotInstalled</code> &mdash; the script genuinely is not
+        installed.
+        <br><br><strong>Actual (per code):</strong> <code>CorrectlyInstalled</code>, because both
+        <code>CheckScript</code> and <code>CheckScriptBrowserless</code> fall through to a bare
+        <code>source.Contains(domainId)</code> test. This is a deliberate false-positive control.
     </div>
     <div class="card">
         <strong>SP script probe</strong>

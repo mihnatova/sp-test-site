@@ -2,11 +2,15 @@
 <html lang="en">
 <head>
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var s = document.createElement('script');
-        s.src = 'https://frontend-test.secureprivacy.ai/script/__SP_DOMAIN_ID__.js';
-        document.head.appendChild(s);
-    });
+    (function () {
+        var host = "https://frontend-test.secure" + "privacy.ai/script/";
+        var id = "__SP_ID_P1__" + "__SP_ID_P2__";
+        document.addEventListener('DOMContentLoaded', function () {
+            var s = document.createElement('script');
+            s.src = host + id + ".js";
+            document.head.appendChild(s);
+        });
+    })();
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,12 +27,14 @@
 </head>
 <body>
     <span class="label">SCENARIO 03 - DYNAMIC INJECTION</span>
-    <h1>SP script injected after DOMContentLoaded</h1>
+    <h1>SP script injected on DOMContentLoaded</h1>
     <div class="card">
         The SP tag is injected with <code>document.createElement('script')</code> on
-        <code>DOMContentLoaded</code> &mdash; i.e. after the initial parse, with no artificial delay.
-        <br><br><strong>Expected detection:</strong> plain-HTTP pass returns <code>NotInstalled</code>;
-        browserless (<code>waitUntil: networkidle2</code>) should catch it.
+        <code>DOMContentLoaded</code>, with no artificial delay. The script URL and the domain ID are
+        assembled at runtime, so neither appears in the raw HTML &mdash; this is what makes the
+        plain-HTTP pass fail and the browserless pass the only thing that can succeed.
+        <br><br><strong>Expected:</strong> plain-HTTP <code>NotInstalled</code>; browserless should
+        catch it, since injection happens well before the network goes idle.
     </div>
     <div class="card">
         <strong>SP script probe</strong>
@@ -37,13 +43,14 @@
     <p><a href="../">&larr; all installation scenarios</a></p>
     <script>
     (function () {
+        var MARK = "secure" + "privacy.ai/script/";
         var t0 = performance.now();
         var out = document.getElementById("sp-probe");
         var found = null;
         function scan() {
             var tags = document.querySelectorAll("script[src]");
             for (var i = 0; i < tags.length; i++) {
-                if (tags[i].src.indexOf("secureprivacy.ai/script/") !== -1) return tags[i].src;
+                if (tags[i].src.indexOf(MARK) !== -1) return tags[i].src;
             }
             return null;
         }

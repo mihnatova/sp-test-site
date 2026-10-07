@@ -18,14 +18,13 @@
     <span class="label">SCENARIO 04 - NO SCRIPT</span>
     <h1>No SP script at all (negative control)</h1>
     <div class="card">
-        This page contains no Secure Privacy tag of any kind, and &mdash; deliberately &mdash; no
-        occurrence of any SP domain ID anywhere in its markup.
-        <br><br><strong>Expected detection:</strong> <code>NotInstalled</code> from both the plain-HTTP
-        pass and the browserless pass.
-        <br><br><strong>Why the markup is kept clean:</strong> the detector also returns
-        <code>CorrectlyInstalled</code> when the raw page source merely <em>contains the domain ID
-        string</em>. Printing the ID on the page would produce a false positive and invalidate this
-        negative control.
+        This page contains no Secure Privacy tag, no SP script URL, and no domain ID anywhere in its
+        markup.
+        <br><br><strong>Expected:</strong> <code>NotInstalled</code> from both passes.
+        <br><br>Keeping the markup clean matters: the detector returns <code>InvalidDomain</code> if the
+        source merely contains the string <code>secureprivacy&#46;ai/script/</code>, and
+        <code>CorrectlyInstalled</code> if it merely contains the domain ID. Either one would destroy
+        this negative control &mdash; see scenario 06.
     </div>
     <div class="card">
         <strong>SP script probe</strong>
@@ -34,13 +33,14 @@
     <p><a href="../">&larr; all installation scenarios</a></p>
     <script>
     (function () {
+        var MARK = "secure" + "privacy.ai/script/";
         var t0 = performance.now();
         var out = document.getElementById("sp-probe");
         var found = null;
         function scan() {
             var tags = document.querySelectorAll("script[src]");
             for (var i = 0; i < tags.length; i++) {
-                if (tags[i].src.indexOf("secureprivacy.ai/script/") !== -1) return tags[i].src;
+                if (tags[i].src.indexOf(MARK) !== -1) return tags[i].src;
             }
             return null;
         }
