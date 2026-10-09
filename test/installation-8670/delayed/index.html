@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+    (function () {
+        var host = "https://frontend-test.secure" + "privacy.ai/script/";
+        var id = "__ID_HEAD__" + "__ID_TAIL__";
+        setTimeout(function () {
+            var s = document.createElement('script');
+            s.src = host + id + ".js";
+            document.head.appendChild(s);
+        }, 4000);
+    })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8670 - SP script injected after 4s</title>
+    <style>
+        body { font-family: -apple-system, Arial, sans-serif; max-width: 760px; margin: 40px auto; padding: 0 20px; background: #f9f9f9; color: #333; }
+        h1 { color: #2c3e50; font-size: 1.3rem; }
+        .card { background: #fff; padding: 16px 18px; margin: 12px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,.08); }
+        .label { display: inline-block; background: #2c3e50; color: #fff; padding: 4px 10px; border-radius: 4px; font-size: .78rem; }
+        code { background: #eef1f3; padding: 2px 5px; border-radius: 3px; font-size: .85em; }
+    </style>
+</head>
+<body>
+    <span class="label">8670 / delayed</span>
+    <h1>SP script injected after 4s</h1>
+    <div class="card"><strong>Expected:</strong> <code>CorrectlyInstalled</code></div>
+<div class="card">Host and ID are assembled at runtime and split, so neither pass 1 nor the inline-loader fallback can match. Only a rendered DOM with a settle window sees the tag.</div>
+</body>
+</html>
