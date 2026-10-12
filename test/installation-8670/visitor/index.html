@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="https://frontend-test.secureprivacy.ai/script/6ac65fd28927a02bcaba001f.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>8670 - Working install (phase 1 of visitor-fallback test)</title>
+    <title>8670 - Uninstalled, visitor history older than 24h (phase 2 of visitor-fallback test)</title>
     <style>
         body { font-family: -apple-system, Arial, sans-serif; max-width: 760px; margin: 40px auto; padding: 0 20px; background: #f9f9f9; color: #333; }
         h1 { color: #2c3e50; font-size: 1.3rem; }
@@ -15,8 +14,10 @@
 </head>
 <body>
     <span class="label">8670 / visitor</span>
-    <h1>Working install (phase 1 of visitor-fallback test)</h1>
-    <div class="card"><strong>Expected:</strong> <code>CorrectlyInstalled</code></div>
-<div class="card">Phase 3: SP tag for a DIFFERENT domain id, on a domain that HAS visitor history. Must stay InvalidDomain.</div>
+    <h1>Uninstalled, visitor history older than 24h</h1>
+    <div class="card"><strong>Expected:</strong> <code>NotInstalled</code></div>
+    <div class="card">Phase 2: no tag of any kind. The domain has visitor rows from phase 1 on 2026-10-09,
+    so they are older than the 24h evidence window but inside the collection's 30-day TTL. The fallback
+    must not fire.</div>
 </body>
 </html>
