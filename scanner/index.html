@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SP Test Site - Scanner baseline</title>
+    <!--
+      Controlled fixture for the nightly scanner check (web-v2 e2e/tests/scanner-nightly.spec.ts, ADO #8621).
+      It sets a fixed set of first-party cookies on load and nothing else: no Secure Privacy
+      script, no third-party scripts, no links to other pages. Every cookie is set from this
+      inline script, so what the scanner should find never depends on an external host.
+      Changing the names below changes the test's baseline - update SCANNER_BASELINE_COOKIES
+      in the spec at the same time.
+    -->
+    <script>
+        (function () {
+            var THIRTY_DAYS = 60 * 60 * 24 * 30;
+            var cookies = {
+                sp_e2e_baseline_session: 'fixed-session-value',
+                sp_e2e_baseline_pref: 'lang-en',
+                sp_e2e_baseline_visit: '1',
+                sp_e2e_baseline_ab: 'variant-a'
+            };
+            for (var name in cookies) {
+                document.cookie = name + '=' + cookies[name] + '; max-age=' + THIRTY_DAYS + '; path=/; SameSite=Lax; Secure';
+            }
+        })();
+    </script>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; color: #333; }
+        pre { background: #f4f4f4; padding: 12px; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <h1>Scanner baseline fixture</h1>
+    <p>This page sets four first-party cookies on load and loads no third-party scripts. It is scanned every night by the web-v2 E2E suite to check the cookie scanner still starts, finishes and finds them.</p>
+    <p><strong>Cookies set on this page:</strong></p>
+    <pre id="cookie-display"></pre>
+    <script>document.getElementById('cookie-display').textContent = document.cookie || '(no cookies set)';</script>
+</body>
+</html>
